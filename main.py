@@ -25,8 +25,10 @@ class Game:
     
     def load_sprites(self):
         """Load the sprites that we need"""
-        self.player_boat = Boat([60, 300])
-        self.player_boat_sprites = pygame.sprite.RenderPlain((self.player_boat))
+        self.player = Boat([35, 300], 'paper_boat.jpg')
+        self.player_sprites = pygame.sprite.RenderPlain((self.player))
+        self.computer = Boat([450, 300], 'paper_boat.jpg')
+        self.computer_sprites = pygame.sprite.RenderPlain((self.computer))
     
     def main(self):
         """Load all of our sprites"""
@@ -39,19 +41,20 @@ class Game:
                     sys.exit()
                 elif event.type == KEYDOWN:
                     if (event.key == K_RETURN):
-                        self.player_boat.throw_hook()
+                        self.player.throw_hook()
             
             self.screen.blit(self.bg, self.bg_rect)
-            self.player_boat_sprites.draw(self.screen)
+            self.player_sprites.draw(self.screen)
+            self.computer_sprites.draw(self.screen)
             pygame.display.flip()
 
 
 class Boat(pygame.sprite.Sprite):
     """The boats that will represent the player and the computer"""
     
-    def __init__(self, position):
+    def __init__(self, position, image):
         pygame.sprite.Sprite.__init__(self)
-        self.image, self.rect = load_image('paper_boat.jpg')
+        self.image, self.rect = load_image(image)
         self.rect.topleft = position
         self.value_collected = 0
         
