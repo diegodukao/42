@@ -28,7 +28,7 @@ class Game:
     
     def main(self):
         """Load all of our sprites"""
-        self.load_sprites()
+        self.create_game_itens()
         
         #This is the Main Loop of the game
         while 1:
@@ -40,7 +40,7 @@ class Game:
             
             self.update_screen()
     
-    def load_sprites(self):
+    def create_game_itens(self):
         """Load the sprites that we need"""
         self.player = Boat([35, 300], 'paper_boat.jpg')
         self.player_sprites = pygame.sprite.RenderPlain((self.player))
@@ -66,9 +66,13 @@ class Game:
                         self.finish_game()
                 if self.computer.is_alive:
                     self.computer.throw_hook()
+            else:
+                self.restart_game()
         elif key == K_BACKSPACE:
             if self.game_running:
                 self.finish_game()
+            else:
+                sys.exit()
         
     def finish_game(self):
         self.game_running = False
@@ -82,6 +86,14 @@ class Game:
             print("You lose!")
         else:
             print("Draw")
+            
+    def restart_game(self):
+        del self.player
+        del self.player_sprites
+        del self.computer
+        del self.computer_sprites
+        self.create_game_itens()
+        self.game_running = True
 
 class Boat(pygame.sprite.Sprite):
     """The boats that will represent the player and the computer"""
