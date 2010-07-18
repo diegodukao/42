@@ -3,6 +3,7 @@
 import sys
 import pygame
 import random
+from animatedsprite import *
 from helpers import *
 
 class Game:
@@ -11,7 +12,7 @@ class Game:
     
     def __init__(self, width=800, height=600):
         """Initialize the game screen"""
-        pygame.init
+        pygame.init()
         
         #Set the window size
         self.width = width
@@ -21,7 +22,7 @@ class Game:
         self.screen = pygame.display.set_mode((self.width, self.height))
         
         #Create the background
-        self.bg, self.bg_rect = load_image("ocean.jpg")
+        self.bg, self.bg_rect = load_image("bg.jpg")
         self.bg = self.bg.convert()
         
         self.game_running = True
@@ -43,6 +44,10 @@ class Game:
     
     def create_game_itens(self):
         """Load the sprites that we need"""
+        animation_images = load_sliced_sprites(20, 20, 'animation1.png')
+        
+        self.animation_test = AnimatedSprite(animation_images, 10)
+        
         self.player = Boat([35, 300], 'paper_boat.jpg')
         self.player_sprites = pygame.sprite.RenderPlain((self.player))
         self.computer = Boat([450, 300], 'paper_boat.jpg')
@@ -77,6 +82,9 @@ class Game:
             text = self.font.render(self.final_text, 1, (255, 30, 0))
             self.screen.blit(text, [360, 150])
         
+        self.animation_test.update(pygame.time.get_ticks())
+        self.animation_test_sprites = pygame.sprite.RenderPlain((self.animation_test))
+        self.animation_test_sprites.draw(self.screen)
         pygame.display.flip()
         
     def key_handler(self, key):
