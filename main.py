@@ -27,8 +27,8 @@ class Game:
         self.game_running = True
     
     def main(self):
-        """Load all of our sprites"""
         self.create_game_itens()
+        self.initialize_sounds()
         
         #This is the Main Loop of the game
         while 1:
@@ -46,6 +46,11 @@ class Game:
         self.player_sprites = pygame.sprite.RenderPlain((self.player))
         self.computer = Boat([450, 300], 'paper_boat.jpg')
         self.computer_sprites = pygame.sprite.RenderPlain((self.computer))
+        
+    def initialize_sounds(self):
+        pygame.mixer.init()
+        pygame.mixer.music.load("bg_music.wav")
+        pygame.mixer.music.play(-1)
     
     def update_screen(self):
         """Show the sprites and update the display"""
