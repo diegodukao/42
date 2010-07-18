@@ -28,7 +28,7 @@ class Game:
     
     def main(self):
         self.create_game_itens()
-        self.initialize_sounds()
+        #self.initialize_sounds()
         
         #This is the Main Loop of the game
         while 1:
@@ -46,6 +46,7 @@ class Game:
         self.player_sprites = pygame.sprite.RenderPlain((self.player))
         self.computer = Boat([450, 300], 'paper_boat.jpg')
         self.computer_sprites = pygame.sprite.RenderPlain((self.computer))
+        self.fish_sprites = pygame.sprite.Group()
         
     def initialize_sounds(self):
         pygame.mixer.init()
@@ -60,13 +61,19 @@ class Game:
             self.player_sprites.draw(self.screen)
         if self.computer.is_alive:
             self.computer_sprites.draw(self.screen)
+        
+        self.fish_sprites.draw(self.screen)
+        
         pygame.display.flip()
         
     def key_handler(self, key):
         if key == K_RETURN:
             if self.game_running:
                 if self.player.is_alive:
-                    self.player.throw_hook()
+                    player_fish = self.player.throw_hook()
+                    self.fish_sprites.empty()
+                    self.fish_sprites.add(player_fish)
+                    
                     if not self.player.is_alive:
                         self.finish_game()
                 if self.computer.is_alive:
@@ -117,6 +124,8 @@ class Boat(pygame.sprite.Sprite):
         print(self.value_collected)
         if self.value_collected > 42:
             self.sink()
+            
+        return fish
             
     def sink(self):
         """Sink the boat when the value is greater than 42"""
