@@ -3,7 +3,7 @@
 import sys
 import pygame
 import random
-from animatedsprite import *
+from boat import *
 from helpers import *
 
 class Game:
@@ -44,13 +44,11 @@ class Game:
     
     def create_game_itens(self):
         """Load the sprites that we need"""
-        animation_images = load_sliced_sprites(20, 20, 'animation1.png')
+        player_images = load_sliced_sprites(20, 20, 'animation1.png')
         
-        self.animation_test = AnimatedSprite(animation_images, 10)
-        
-        self.player = Boat([35, 300], 'paper_boat.jpg')
+        self.player = Boat([35, 300], player_images)
         self.player_sprites = pygame.sprite.RenderPlain((self.player))
-        self.computer = Boat([450, 300], 'paper_boat.jpg')
+        self.computer = Boat([450, 300], player_images)
         self.computer_sprites = pygame.sprite.RenderPlain((self.computer))
         self.fish_sprites = pygame.sprite.Group()
         
@@ -63,18 +61,16 @@ class Game:
         pygame.font.init()
         self.font = pygame.font.Font(None, 36)
         
-    
     def update_screen(self):
         """Show the sprites and update the display"""
         self.screen.blit(self.bg, self.bg_rect)
         
         if self.player.is_alive:
-            self.player_sprites.draw(self.screen)
+            self.player.update(self.screen)
         if self.computer.is_alive:
-            self.computer_sprites.draw(self.screen)
+            self.computer.update(self.screen)
         
         self.fish_sprites.draw(self.screen)
-        
         self.player.show_weight(self, [35, 10])
         
         if not self.game_running:
@@ -82,9 +78,9 @@ class Game:
             text = self.font.render(self.final_text, 1, (255, 30, 0))
             self.screen.blit(text, [360, 150])
         
-        self.animation_test.update(pygame.time.get_ticks())
-        self.animation_test_sprites = pygame.sprite.RenderPlain((self.animation_test))
-        self.animation_test_sprites.draw(self.screen)
+#        self.animation_test.update(pygame.time.get_ticks())
+#        self.animation_test_sprites = pygame.sprite.RenderPlain((self.animation_test))
+#        self.animation_test_sprites.draw(self.screen)
         pygame.display.flip()
         
     def key_handler(self, key):
@@ -127,62 +123,6 @@ class Game:
         del self.computer_sprites
         self.create_game_itens()
         self.game_running = True
-
-class Boat(pygame.sprite.Sprite):
-    """The boats that will represent the player and the computer"""
-    
-    def __init__(self, position, image):
-        pygame.sprite.Sprite.__init__(self)
-        self.image, self.rect = load_image(image)
-        self.rect.topleft = position
-        self.is_alive = True
-        self.value_collected = 0
-        
-    def throw_hook(self):
-        """Get a fish (and a value)"""
-        fish = Fish([40, 80])
-        self.value_collected += fish.value
-        if self.value_collected > 42:
-            self.sink()
-            
-        return fish
-            
-    def sink(self):
-        """Sink the boat when the value is greater than 42"""
-        self.is_alive = False
-    
-    def show_weight(self, game, position):
-        percent = str((self.value_collected * 100) / 42) + "%"
-        text = game.font.render("Weight %s" % percent, 1, (255, 0, 0))
-        game.screen.blit(text, position)
-
-possible_values = [
-                    1, 1, 1, 1,
-                    2, 2, 2, 2,
-                    6, 6, 6, 6,
-                    8, 8, 8, 8,
-                    10, 10, 10, 10,
-                    12, 12, 12, 12,
-                    14, 14, 14, 14,
-                    16, 16, 16, 16,
-                    18, 18, 18, 18,
-                    20, 20, 20, 20,
-                    21
-]
-
-
-class Fish(pygame.sprite.Sprite):
-    """The values that the player and the computer will fish"""
-    
-    def __init__(self, position):
-        pygame.sprite.Sprite.__init__(self)
-        self.image, self.rect = load_image('coin.png')
-        self.rect.topleft = position
-        
-        #getting a value randomically
-        key_value = random.randint(0, len(possible_values) - 1)
-        self.value = possible_values.pop(key_value)
-
 
 if __name__ == "__main__":
     game_window = Game()
