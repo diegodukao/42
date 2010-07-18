@@ -49,7 +49,7 @@ class Game:
         
     def initialize_sounds(self):
         pygame.mixer.init()
-        pygame.mixer.music.load("bg_music.wav")
+        pygame.mixer.music.load("data/sounds/bg_music.wav")
         pygame.mixer.music.play(-1)
     
     def update_screen(self):
