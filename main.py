@@ -71,8 +71,11 @@ class Game:
         self.fish_sprites.draw(self.screen)
         
         self.player.show_weight(self, [35, 10])
+        
         if not self.game_running:
             self.computer.show_weight(self, [450, 10])
+            text = self.font.render(self.final_text, 1, (255, 30, 0))
+            self.screen.blit(text, [360, 150])
         
         pygame.display.flip()
         
@@ -97,17 +100,17 @@ class Game:
                 sys.exit()
         
     def finish_game(self):
-        self.game_running = False
-        
         if not self.player.is_alive:
-            print("You are dead!")
+            self.final_text = "You are dead!"
         elif (not self.computer.is_alive
                 or self.player.value_collected > self.computer.value_collected):
-            print("You win!")
+            self.final_text = "You win!"
         elif self.player.value_collected < self.computer.value_collected:
-            print("You lose!")
+            self.final_text = "You lose!"
         else:
-            print("Draw")
+            self.final_text = "Draw"
+        
+        self.game_running = False
             
     def restart_game(self):
         del self.player
