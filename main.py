@@ -23,6 +23,8 @@ class Game:
         #Create the background
         self.bg, self.bg_rect = load_image("ocean.jpg")
         self.bg = self.bg.convert()
+        
+        self.game_running = True
     
     def main(self):
         """Load all of our sprites"""
@@ -34,9 +36,12 @@ class Game:
                 if event.type == pygame.QUIT:
                     sys.exit()
                 elif event.type == KEYDOWN:
-                    if (event.key == K_RETURN):
-                        self.player.throw_hook()
-                        self.computer.throw_hook()
+                    if event.key == K_RETURN:
+                        if self.game_running:
+                            self.player.throw_hook()
+                            self.computer.throw_hook()
+                    elif event.key == K_BACKSPACE:
+                        self.show_winner()
             
             self.update_screen()
     
@@ -56,6 +61,16 @@ class Game:
         if self.computer.is_alive:
             self.computer_sprites.draw(self.screen)
         pygame.display.flip()
+        
+    def show_winner(self):
+        self.game_running = False
+        
+        if self.player.value_collected > self.computer.value_collected:
+            print("You win!")
+        elif self.player.value_collected < self.computer.value_collected:
+            print("You lose!")
+        else:
+            print("Draw")
 
 class Boat(pygame.sprite.Sprite):
     """The boats that will represent the player and the computer"""
