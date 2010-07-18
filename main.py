@@ -29,6 +29,7 @@ class Game:
     def main(self):
         self.create_game_itens()
         #self.initialize_sounds()
+        self.initialize_text()
         
         #This is the Main Loop of the game
         while 1:
@@ -52,6 +53,11 @@ class Game:
         pygame.mixer.init()
         pygame.mixer.music.load("data/sounds/bg_music.wav")
         pygame.mixer.music.play(-1)
+        
+    def initialize_text(self):
+        pygame.font.init()
+        self.font = pygame.font.Font(None, 36)
+        
     
     def update_screen(self):
         """Show the sprites and update the display"""
@@ -64,8 +70,9 @@ class Game:
         
         self.fish_sprites.draw(self.screen)
         
-        font = pygame.font.Font(None, 36)
-        text = font.render("Weight %s" % self.player.value_collected, 1, (255, 0, 0))
+        self.player.show_weight(self, [35, 10])
+        if not self.game_running:
+            self.computer.show_weight(self, [450, 10])
         
         pygame.display.flip()
         
@@ -124,7 +131,6 @@ class Boat(pygame.sprite.Sprite):
         """Get a fish (and a value)"""
         fish = Fish([40, 80])
         self.value_collected += fish.value
-        print(self.value_collected)
         if self.value_collected > 42:
             self.sink()
             
@@ -133,6 +139,11 @@ class Boat(pygame.sprite.Sprite):
     def sink(self):
         """Sink the boat when the value is greater than 42"""
         self.is_alive = False
+    
+    def show_weight(self, game, position):
+        percent = str((self.value_collected * 100) / 42) + "%"
+        text = game.font.render("Weight %s" % percent, 1, (255, 0, 0))
+        game.screen.blit(text, position)
 
 possible_values = [
                     1, 1, 1, 1,
