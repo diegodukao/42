@@ -64,6 +64,9 @@ class Game:
         
         self.fish_sprites.draw(self.screen)
         
+        font = pygame.font.Font(None, 36)
+        text = font.render("Weight %s" % self.player.value_collected, 1, (255, 0, 0))
+        
         pygame.display.flip()
         
     def key_handler(self, key):
