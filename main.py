@@ -35,13 +35,8 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
-                elif event.type == KEYDOWN:
-                    if event.key == K_RETURN:
-                        if self.game_running:
-                            self.player.throw_hook()
-                            self.computer.throw_hook()
-                    elif event.key == K_BACKSPACE:
-                        self.show_winner()
+                elif event.type == KEYUP:
+                    self.key_handler(event.key)
             
             self.update_screen()
     
@@ -62,10 +57,26 @@ class Game:
             self.computer_sprites.draw(self.screen)
         pygame.display.flip()
         
-    def show_winner(self):
+    def key_handler(self, key):
+        if key == K_RETURN:
+            if self.game_running:
+                if self.player.is_alive:
+                    self.player.throw_hook()
+                    if not self.player.is_alive:
+                        self.finish_game()
+                if self.computer.is_alive:
+                    self.computer.throw_hook()
+        elif key == K_BACKSPACE:
+            if self.game_running:
+                self.finish_game()
+        
+    def finish_game(self):
         self.game_running = False
         
-        if self.player.value_collected > self.computer.value_collected:
+        if not self.player.is_alive:
+            print("You are dead!")
+        elif (not self.computer.is_alive
+                or self.player.value_collected > self.computer.value_collected):
             print("You win!")
         elif self.player.value_collected < self.computer.value_collected:
             print("You lose!")
@@ -95,6 +106,7 @@ class Boat(pygame.sprite.Sprite):
         self.is_alive = False
 
 possible_values = [
+                    1, 1, 1, 1,
                     2, 2, 2, 2,
                     6, 6, 6, 6,
                     8, 8, 8, 8,
@@ -104,10 +116,7 @@ possible_values = [
                     16, 16, 16, 16,
                     18, 18, 18, 18,
                     20, 20, 20, 20,
-                    20, 20, 20, 20,
-                    20, 20, 20, 20,
-                    20, 20, 20, 20,
-                    21, 21, 21, 21
+                    21
 ]
 
 
