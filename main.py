@@ -50,8 +50,11 @@ class Game:
     def update_screen(self):
         """Show the sprites and update the display"""
         self.screen.blit(self.bg, self.bg_rect)
-        self.player_sprites.draw(self.screen)
-        self.computer_sprites.draw(self.screen)
+        
+        if self.player.is_alive:
+            self.player_sprites.draw(self.screen)
+        if self.computer.is_alive:
+            self.computer_sprites.draw(self.screen)
         pygame.display.flip()
 
 class Boat(pygame.sprite.Sprite):
@@ -61,6 +64,7 @@ class Boat(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_image(image)
         self.rect.topleft = position
+        self.is_alive = True
         self.value_collected = 0
         
     def throw_hook(self):
@@ -68,6 +72,12 @@ class Boat(pygame.sprite.Sprite):
         fish = Fish()
         self.value_collected += fish.value
         print(self.value_collected)
+        if self.value_collected > 42:
+            self.sink()
+            
+    def sink(self):
+        """Sink the boat when the value is greater than 42"""
+        self.is_alive = False
 
 possible_values = [
                     2, 2, 2, 2,
