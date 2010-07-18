@@ -119,7 +119,7 @@ class Boat(pygame.sprite.Sprite):
         
     def throw_hook(self):
         """Get a fish (and a value)"""
-        fish = Fish()
+        fish = Fish([40, 80])
         self.value_collected += fish.value
         print(self.value_collected)
         if self.value_collected > 42:
@@ -149,9 +149,10 @@ possible_values = [
 class Fish(pygame.sprite.Sprite):
     """The values that the player and the computer will fish"""
     
-    def __init__(self):
+    def __init__(self, position):
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_image('coin.png')
+        self.rect.topleft = position
         
         #getting a value randomically
         key_value = random.randint(0, len(possible_values) - 1)
