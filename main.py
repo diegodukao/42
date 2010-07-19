@@ -69,6 +69,22 @@ class Game:
             "boat_frame2.png"
         ]
         
+        player_sink_frames_names = [
+            "sink_frame1.png",
+            "sink_frame2.png",
+            "sink_frame3.png",
+            "sink_frame4.png",
+            "sink_frame5.png",
+            "sink_frame6.png",
+            "sink_frame7.png",
+            "sink_frame8.png",
+            "sink_frame9.png",
+            "sink_frame10.png",
+            "sink_frame11.png",
+            "sink_frame12.png",
+            "sink_frame13.png"
+        ]
+        
         computer_frames_names = [
             "boat2_frame1.png",
             "boat2_frame2.png",
@@ -92,12 +108,30 @@ class Game:
             "boat2_frame2.png"
         ]
         
-        player_images = load_animation_sprites(player_frames_names)
-        computer_images = load_animation_sprites(computer_frames_names)
+        computer_sink_frames_names = [
+            "sink2_frame1.png",
+            "sink2_frame2.png",
+            "sink2_frame3.png",
+            "sink2_frame4.png",
+            "sink2_frame5.png",
+            "sink2_frame6.png",
+            "sink2_frame7.png",
+            "sink2_frame8.png",
+            "sink2_frame9.png",
+            "sink2_frame10.png",
+            "sink2_frame11.png",
+            "sink2_frame12.png",
+            "sink2_frame13.png"
+        ]
         
-        self.player = Boat([35, 300], player_images, computer_images)
+        player_images = load_animation_sprites(player_frames_names)
+        player_sink_images = load_animation_sprites(player_sink_frames_names)
+        computer_images = load_animation_sprites(computer_frames_names)
+        computer_sink_images = load_animation_sprites(computer_sink_frames_names)
+        
+        self.player = Boat([35, 300], player_images, player_sink_images)
         self.player_sprites = pygame.sprite.RenderPlain((self.player))
-        self.computer = Boat([450, 300], computer_images, player_images)
+        self.computer = Boat([450, 300], computer_images, computer_sink_images)
         self.computer_sprites = pygame.sprite.RenderPlain((self.computer))
         self.fish_sprites = pygame.sprite.Group()
         
@@ -127,7 +161,7 @@ class Game:
         if not self.game_running:
             self.computer.show_weight(self, [450, 10])
             text = self.font.render(self.final_text, 1, (255, 30, 0))
-            self.screen.blit(text, [360, 150])
+            self.screen.blit(text, [280, 150])
         
         pygame.display.flip()
         
