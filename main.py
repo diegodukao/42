@@ -30,7 +30,7 @@ class Game:
     
     def main(self):
         self.create_game_itens()
-        #self.initialize_sounds()
+        self.initialize_sounds()
         self.initialize_text()
         
         #This is the Main Loop of the game
@@ -150,12 +150,10 @@ class Game:
         """Show the sprites and update the display"""
         self.screen.blit(self.bg, self.bg_rect)
         
-        #if self.player.is_alive:
         self.player.update(self.screen)
-        #if self.computer.is_alive:
         self.computer.update(self.screen)
         
-        self.fish_sprites.draw(self.screen)
+        #self.fish_sprites.draw(self.screen)
         self.player.show_weight(self, [35, 10])
         
         if not self.game_running:
