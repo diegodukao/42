@@ -22,6 +22,7 @@ class Boat(pygame.sprite.Sprite):
         
         # Attributes of the boat
         self.is_alive = True
+        self.is_sinking = False
         self.value_collected = 0
         
     def update(self, screen):
@@ -31,17 +32,22 @@ class Boat(pygame.sprite.Sprite):
         t = pygame.time.get_ticks()
         
         if t - self._last_update > self._delay:
-            self._frame += 1
-            if self._frame >= len(self._images): self._frame = 0
-            self.image = self._images[self._frame]
-            self._last_update = t
-            self.sprites = pygame.sprite.RenderPlain((self))
+            if self.is_alive:
+                self.image = self._images[self._frame]
+                self._last_update = t
+                self.sprites = pygame.sprite.RenderPlain((self))
+                self._frame += 1
+            if self._frame >= len(self._images):
+                if self.is_sinking:
+                    self.is_alive = False
+                else:
+                    self._frame = 0
         
         self.sprites.draw(screen)
         
-    def throw_hook(self):
+    def throw_hook(self, possible_values):
         """Get a fish (and a value)"""
-        fish = Fish([40, 80])
+        fish = Fish([40, 80], possible_values)
         self.value_collected += fish.value
         if self.value_collected > 42:
             self.sink()
@@ -50,9 +56,9 @@ class Boat(pygame.sprite.Sprite):
             
     def sink(self):
         """Sink the boat when the value is greater than 42"""
-        self.is_alive = False
         self._frame = 0
         self._images = self.sink_images
+        self.is_sinking = True
     
     def show_weight(self, game, position):
         percent = str((self.value_collected * 100) / 42) + "%"

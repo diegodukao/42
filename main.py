@@ -4,6 +4,7 @@ import sys
 import pygame
 import random
 from boat import *
+from possiblevalues import *
 from helpers import *
 
 class Game:
@@ -100,6 +101,8 @@ class Game:
         self.computer_sprites = pygame.sprite.RenderPlain((self.computer))
         self.fish_sprites = pygame.sprite.Group()
         
+        self.possible_values = PossibleValues()
+        
     def initialize_sounds(self):
         pygame.mixer.init()
         pygame.mixer.music.load("data/sounds/bg_music.wav")
@@ -131,15 +134,15 @@ class Game:
     def key_handler(self, key):
         if key == K_RETURN:
             if self.game_running:
-                if self.player.is_alive:
-                    player_fish = self.player.throw_hook()
+                if not self.player.is_sinking:
+                    player_fish = self.player.throw_hook(self.possible_values.list)
                     self.fish_sprites.empty()
                     self.fish_sprites.add(player_fish)
                     
-                    if not self.player.is_alive:
+                    if self.player.is_sinking:
                         self.finish_game()
-                if self.computer.is_alive:
-                    self.computer.throw_hook()
+                if not self.computer.is_sinking:
+                    self.computer.throw_hook(self.possible_values.list)
             else:
                 self.restart_game()
         elif key == K_BACKSPACE:
@@ -149,9 +152,9 @@ class Game:
                 sys.exit()
         
     def finish_game(self):
-        if not self.player.is_alive:
+        if self.player.is_sinking:
             self.final_text = "You are dead!"
-        elif (not self.computer.is_alive
+        elif (self.computer.is_sinking
                 or self.player.value_collected > self.computer.value_collected):
             self.final_text = "You win!"
         elif self.player.value_collected < self.computer.value_collected:
@@ -166,6 +169,7 @@ class Game:
         del self.player_sprites
         del self.computer
         del self.computer_sprites
+        del self.possible_values
         self.create_game_itens()
         self.game_running = True
 
