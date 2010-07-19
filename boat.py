@@ -5,10 +5,11 @@ from fish import *
 class Boat(pygame.sprite.Sprite):
     """The boats that will represent the player and the computer"""
     
-    def __init__(self, position, images, fps = 10):
+    def __init__(self, position, idle_images, sink_images, fps = 10):
         pygame.sprite.Sprite.__init__(self)
-        self._images = images
-        self.image = images[0]
+        self._images = idle_images
+        self.image = idle_images[0]
+        self.sink_images = sink_images
         self.rect = self.image.get_rect()
         self.rect.topleft = position
         
@@ -50,6 +51,8 @@ class Boat(pygame.sprite.Sprite):
     def sink(self):
         """Sink the boat when the value is greater than 42"""
         self.is_alive = False
+        self._frame = 0
+        self._images = self.sink_images
     
     def show_weight(self, game, position):
         percent = str((self.value_collected * 100) / 42) + "%"

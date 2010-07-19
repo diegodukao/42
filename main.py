@@ -94,9 +94,9 @@ class Game:
         player_images = load_animation_sprites(player_frames_names)
         computer_images = load_animation_sprites(computer_frames_names)
         
-        self.player = Boat([35, 300], player_images)
+        self.player = Boat([35, 300], player_images, computer_images)
         self.player_sprites = pygame.sprite.RenderPlain((self.player))
-        self.computer = Boat([450, 300], computer_images)
+        self.computer = Boat([450, 300], computer_images, player_images)
         self.computer_sprites = pygame.sprite.RenderPlain((self.computer))
         self.fish_sprites = pygame.sprite.Group()
         
@@ -113,10 +113,10 @@ class Game:
         """Show the sprites and update the display"""
         self.screen.blit(self.bg, self.bg_rect)
         
-        if self.player.is_alive:
-            self.player.update(self.screen)
-        if self.computer.is_alive:
-            self.computer.update(self.screen)
+        #if self.player.is_alive:
+        self.player.update(self.screen)
+        #if self.computer.is_alive:
+        self.computer.update(self.screen)
         
         self.fish_sprites.draw(self.screen)
         self.player.show_weight(self, [35, 10])
