@@ -44,11 +44,59 @@ class Game:
     
     def create_game_itens(self):
         """Load the sprites that we need"""
-        player_images = load_sliced_sprites(20, 20, 'animation1.png')
+        
+        player_frames_names = [
+            "boat_frame1.png",
+            "boat_frame2.png",
+            "boat_frame3.png",
+            "boat_frame4.png",
+            "boat_frame5.png",
+            "boat_frame6.png",
+            "boat_frame7.png",
+            "boat_frame8.png",
+            "boat_frame9.png",
+            "boat_frame10.png",
+            "boat_frame11.png",
+            "boat_frame10.png",
+            "boat_frame9.png",
+            "boat_frame8.png",
+            "boat_frame7.png",
+            "boat_frame6.png",
+            "boat_frame5.png",
+            "boat_frame4.png",
+            "boat_frame3.png",
+            "boat_frame2.png"
+        ]
+        
+        computer_frames_names = [
+            "boat2_frame1.png",
+            "boat2_frame2.png",
+            "boat2_frame3.png",
+            "boat2_frame4.png",
+            "boat2_frame5.png",
+            "boat2_frame6.png",
+            "boat2_frame7.png",
+            "boat2_frame8.png",
+            "boat2_frame9.png",
+            "boat2_frame10.png",
+            "boat2_frame11.png",
+            "boat2_frame10.png",
+            "boat2_frame9.png",
+            "boat2_frame8.png",
+            "boat2_frame7.png",
+            "boat2_frame6.png",
+            "boat2_frame5.png",
+            "boat2_frame4.png",
+            "boat2_frame3.png",
+            "boat2_frame2.png"
+        ]
+        
+        player_images = load_animation_sprites(player_frames_names)
+        computer_images = load_animation_sprites(computer_frames_names)
         
         self.player = Boat([35, 300], player_images)
         self.player_sprites = pygame.sprite.RenderPlain((self.player))
-        self.computer = Boat([450, 300], player_images)
+        self.computer = Boat([450, 300], computer_images)
         self.computer_sprites = pygame.sprite.RenderPlain((self.computer))
         self.fish_sprites = pygame.sprite.Group()
         
@@ -78,9 +126,6 @@ class Game:
             text = self.font.render(self.final_text, 1, (255, 30, 0))
             self.screen.blit(text, [360, 150])
         
-#        self.animation_test.update(pygame.time.get_ticks())
-#        self.animation_test_sprites = pygame.sprite.RenderPlain((self.animation_test))
-#        self.animation_test_sprites.draw(self.screen)
         pygame.display.flip()
         
     def key_handler(self, key):

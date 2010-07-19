@@ -35,3 +35,11 @@ def load_sliced_sprites(w, h, filename):
     	images.append(master_image.subsurface((i*w,0,w,h)))
     return images
 
+def load_animation_sprites(list_names):
+    images = []
+    
+    for image_name in list_names:
+        image = pygame.image.load(os.path.join('data/images', image_name)).convert_alpha()
+        images.append(image)
+    
+    return images
