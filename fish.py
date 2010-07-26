@@ -7,9 +7,11 @@ class Fish(pygame.sprite.Sprite):
     
     def __init__(self, position, possible_values):
         pygame.sprite.Sprite.__init__(self)
-        self.image, self.rect = load_image('coin.png')
-        self.rect.topleft = position
         
         #getting a value randomically
         key_value = random.randint(0, len(possible_values) - 1)
-        self.value = possible_values.pop(key_value)
+        fish = possible_values.pop(key_value)
+        
+        self.value = fish[0]
+        self.image, self.rect = load_image(fish[1])
+        self.rect.topleft = position

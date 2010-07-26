@@ -64,3 +64,8 @@ class Boat(pygame.sprite.Sprite):
         percent = str((self.value_collected * 100) / 42) + "%"
         text = game.font.render("Weight %s" % percent, 1, (255, 0, 0))
         game.screen.blit(text, position)
+        
+    def show_value(self, game, position):
+        color = (255, 0, 0)
+        text = game.font.render("Value: %i" % self.value_collected, 1, color)
+        game.screen.blit(text, position)
