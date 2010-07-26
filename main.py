@@ -224,14 +224,14 @@ class Game:
         else:
             while self.computer.value_collected <= self.player.value_collected:
                 self.computer.throw_hook(self.possible_values.list)
-        
-        if (self.computer.is_sinking
-                or self.player.value_collected > self.computer.value_collected):
-            self.final_text = "You win!"
-        elif self.player.value_collected < self.computer.value_collected:
-            self.final_text = "You lose!"
-        else:
-            self.final_text = "Draw"
+            
+            if (self.computer.is_sinking
+                    or self.player.value_collected > self.computer.value_collected):
+                self.final_text = "You win!"
+            elif self.player.value_collected < self.computer.value_collected:
+                self.final_text = "You lose!"
+            else:
+                self.final_text = "Draw"
         
         self.result_text = self.font.render(self.final_text, 1, (255, 30, 0))
         
