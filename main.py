@@ -31,7 +31,7 @@ class Game:
             "BACKSPACE: Stop fishing"
         ]
         
-        self.final_instructions_text = "Hit Return to start a new game or Backspace to quit."
+        self.final_instructions_text = "Hit Return to play again or Backspace to quit."
         
         self.game_running = True
     
@@ -190,8 +190,8 @@ class Game:
         self.computer.show_value(self, [530, 35])
         
         if self.game_running:
-            self.screen.blit(self.inicial_instructions[0], [280, 10])
-            self.screen.blit(self.inicial_instructions[1], [280, 30])
+            self.screen.blit(self.inicial_instructions[0], [260, 10])
+            self.screen.blit(self.inicial_instructions[1], [260, 30])
         else:
             self.screen.blit(self.result_text, [280, 130])
             self.screen.blit(self.final_instructions, [50, 160])
