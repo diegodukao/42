@@ -26,6 +26,8 @@ class Game:
         self.bg, self.bg_rect = load_image("bg.jpg")
         self.bg = self.bg.convert()
         
+        self.final_instructions = "Hit Return to start a new game or Backspace to quit."
+        
         self.game_running = True
     
     def main(self):
@@ -160,8 +162,14 @@ class Game:
         if not self.game_running:
             self.computer.show_weight(self, [450, 10])
             self.computer.show_value(self, [450, 35])
-            text = self.font.render(self.final_text, 1, (255, 30, 0))
-            self.screen.blit(text, [280, 150])
+            result_text = self.font.render(self.final_text, 1, (255, 30, 0))
+            instructions = self.font.render(
+                                                self.final_instructions,
+                                                1,
+                                                (255, 102, 0)
+                                            )
+            self.screen.blit(result_text, [280, 130])
+            self.screen.blit(instructions, [50, 160])
         
         pygame.display.flip()
         
