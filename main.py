@@ -219,6 +219,10 @@ class Game:
                 sys.exit()
         
     def finish_game(self):
+        if not self.player.is_sinking:
+            while self.computer.value_collected < self.player.value_collected:
+                self.computer.throw_hook(self.possible_values.list)
+    
         if self.player.is_sinking:
             self.final_text = "You are dead!"
         elif (self.computer.is_sinking
