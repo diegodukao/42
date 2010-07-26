@@ -40,6 +40,9 @@ class Game:
 #        self.initialize_sounds()
         self.initialize_text()
         
+        self.player.throw_hook(self.possible_values.list)
+        self.computer.throw_hook(self.possible_values.list)
+        
         #This is the Main Loop of the game
         while 1:
             for event in pygame.event.get():
@@ -183,13 +186,13 @@ class Game:
         self.player.show_weight(self, [35, 10])
         self.player.show_value(self, [35, 35])
         
+        self.computer.show_weight(self, [530, 10])
+        self.computer.show_value(self, [530, 35])
+        
         if self.game_running:
             self.screen.blit(self.inicial_instructions[0], [280, 10])
             self.screen.blit(self.inicial_instructions[1], [280, 30])
         else:
-            self.computer.show_weight(self, [450, 10])
-            self.computer.show_value(self, [450, 35])
-            
             self.screen.blit(self.result_text, [280, 130])
             self.screen.blit(self.final_instructions, [50, 160])
         
@@ -205,8 +208,8 @@ class Game:
                     
                     if self.player.is_sinking:
                         self.finish_game()
-                if not self.computer.is_sinking:
-                    self.computer.throw_hook(self.possible_values.list)
+                #if not self.computer.is_sinking:
+                    #self.computer.throw_hook(self.possible_values.list)
             else:
                 self.restart_game()
         elif key == K_BACKSPACE:
