@@ -26,7 +26,12 @@ class Game:
         self.bg, self.bg_rect = load_image("bg.jpg")
         self.bg = self.bg.convert()
         
-        self.final_instructions = "Hit Return to start a new game or Backspace to quit."
+        self.inicial_instructions_text = [
+            "RETURN: Catch a fish",
+            "BACKSPACE: Stop fishing"
+        ]
+        
+        self.final_instructions_text = "Hit Return to start a new game or Backspace to quit."
         
         self.game_running = True
     
@@ -147,6 +152,25 @@ class Game:
     def initialize_text(self):
         pygame.font.init()
         self.font = pygame.font.Font(None, 36)
+        self.font_instructions = pygame.font.Font(None, 23)
+        
+        self.inicial_instructions = []
+        self.inicial_instructions.append(self.font_instructions.render(
+            self.inicial_instructions_text[0],
+            1,
+            (0, 0, 0)
+        ))
+        self.inicial_instructions.append(self.font_instructions.render(
+            self.inicial_instructions_text[1],
+            1,
+            (0, 0, 0)
+        ))
+        
+        self.final_instructions = self.font.render(
+            self.final_instructions_text,
+            1,
+            (255, 102, 0)
+        )
         
     def update_screen(self):
         """Show the sprites and update the display"""
@@ -159,17 +183,15 @@ class Game:
         self.player.show_weight(self, [35, 10])
         self.player.show_value(self, [35, 35])
         
-        if not self.game_running:
+        if self.game_running:
+            self.screen.blit(self.inicial_instructions[0], [280, 10])
+            self.screen.blit(self.inicial_instructions[1], [280, 30])
+        else:
             self.computer.show_weight(self, [450, 10])
             self.computer.show_value(self, [450, 35])
-            result_text = self.font.render(self.final_text, 1, (255, 30, 0))
-            instructions = self.font.render(
-                                                self.final_instructions,
-                                                1,
-                                                (255, 102, 0)
-                                            )
-            self.screen.blit(result_text, [280, 130])
-            self.screen.blit(instructions, [50, 160])
+            
+            self.screen.blit(self.result_text, [280, 130])
+            self.screen.blit(self.final_instructions, [50, 160])
         
         pygame.display.flip()
         
@@ -203,6 +225,8 @@ class Game:
             self.final_text = "You lose!"
         else:
             self.final_text = "Draw"
+        
+        self.result_text = self.font.render(self.final_text, 1, (255, 30, 0))
         
         self.game_running = False
             
