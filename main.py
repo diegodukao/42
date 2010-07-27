@@ -137,9 +137,9 @@ class Game:
         computer_images = load_animation_sprites(computer_frames_names)
         computer_sink_images = load_animation_sprites(computer_sink_frames_names)
         
-        self.player = Boat([35, 300], player_images, player_sink_images)
+        self.player = Boat([35, 300], player_images, player_sink_images, 0)
         self.player_sprites = pygame.sprite.RenderPlain((self.player))
-        self.computer = Boat([450, 300], computer_images, computer_sink_images)
+        self.computer = Boat([450, 300], computer_images, computer_sink_images, 1)
         self.computer_sprites = pygame.sprite.RenderPlain((self.computer))
         self.fish_sprites = pygame.sprite.Group()
         
@@ -201,10 +201,10 @@ class Game:
             if self.game_running:
                 if not self.player.is_sinking:
                     player_fish = self.player.throw_hook(self.possible_values.list)
-                    #self.fish_sprites.empty()
                     self.fish_sprites.add(player_fish)
                     if self.first_fish:
                         computer_fish = self.computer.throw_hook(self.possible_values.list)
+                        self.fish_sprites.add(computer_fish)
                         self.first_fish = False
                     
                     if self.player.is_sinking:

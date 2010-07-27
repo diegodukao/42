@@ -5,8 +5,9 @@ from fish import *
 class Boat(pygame.sprite.Sprite):
     """The boats that will represent the player and the computer"""
     
-    def __init__(self, position, idle_images, sink_images, fps = 10):
+    def __init__(self, position, idle_images, sink_images, player, fps = 10):
         pygame.sprite.Sprite.__init__(self)
+        self.player = player
         self._images = idle_images
         self.image = idle_images[0]
         self.sink_images = sink_images
@@ -24,7 +25,10 @@ class Boat(pygame.sprite.Sprite):
         self.is_alive = True
         self.is_sinking = False
         self.value_collected = 0
-        self.fish_x_position = 0
+        if self.player == 0:
+            self.fish_x_position = 0
+        else:
+            self.fish_x_position = 490
         
     def update(self, screen):
         # Note that this doesn't work if it's been more that self._delay
