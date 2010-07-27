@@ -38,7 +38,7 @@ class Game:
     
     def main(self):
         self.create_game_itens()
-#        self.initialize_sounds()
+        self.initialize_sounds()
         self.initialize_text()
         
         #This is the Main Loop of the game
@@ -222,7 +222,8 @@ class Game:
             self.final_text = "You are dead!"
         else:
             while self.computer.value_collected <= self.player.value_collected:
-                self.computer.throw_hook(self.possible_values.list)
+                computer_fish = self.computer.throw_hook(self.possible_values.list)
+                self.fish_sprites.add(computer_fish)
             
             if (self.computer.is_sinking
                     or self.player.value_collected > self.computer.value_collected):
