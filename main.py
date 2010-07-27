@@ -34,14 +34,12 @@ class Game:
         self.final_instructions_text = "Hit Return to play again or Backspace to quit."
         
         self.game_running = True
+        self.first_fish = True
     
     def main(self):
         self.create_game_itens()
 #        self.initialize_sounds()
         self.initialize_text()
-        
-        self.player.throw_hook(self.possible_values.list)
-        self.computer.throw_hook(self.possible_values.list)
         
         #This is the Main Loop of the game
         while 1:
@@ -146,7 +144,7 @@ class Game:
         self.fish_sprites = pygame.sprite.Group()
         
         self.possible_values = PossibleValues()
-        
+    
     def initialize_sounds(self):
         pygame.mixer.init()
         pygame.mixer.music.load("data/sounds/bg_music.wav")
@@ -194,7 +192,7 @@ class Game:
             self.screen.blit(self.inicial_instructions[1], [260, 30])
         else:
             self.screen.blit(self.result_text, [280, 130])
-            self.screen.blit(self.final_instructions, [50, 160])
+            self.screen.blit(self.final_instructions, [90, 160])
         
         pygame.display.flip()
         
@@ -203,13 +201,14 @@ class Game:
             if self.game_running:
                 if not self.player.is_sinking:
                     player_fish = self.player.throw_hook(self.possible_values.list)
-                    self.fish_sprites.empty()
+                    #self.fish_sprites.empty()
                     self.fish_sprites.add(player_fish)
+                    if self.first_fish:
+                        computer_fish = self.computer.throw_hook(self.possible_values.list)
+                        self.first_fish = False
                     
                     if self.player.is_sinking:
                         self.finish_game()
-                #if not self.computer.is_sinking:
-                    #self.computer.throw_hook(self.possible_values.list)
             else:
                 self.restart_game()
         elif key == K_BACKSPACE:
@@ -245,6 +244,7 @@ class Game:
         del self.possible_values
         self.create_game_itens()
         self.game_running = True
+        self.first_fish = True
 
 if __name__ == "__main__":
     game_window = Game()

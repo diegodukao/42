@@ -24,6 +24,7 @@ class Boat(pygame.sprite.Sprite):
         self.is_alive = True
         self.is_sinking = False
         self.value_collected = 0
+        self.fish_x_position = 0
         
     def update(self, screen):
         # Note that this doesn't work if it's been more that self._delay
@@ -47,7 +48,8 @@ class Boat(pygame.sprite.Sprite):
         
     def throw_hook(self, possible_values):
         """Get a fish (and a value)"""
-        fish = Fish([40, 80], possible_values)
+        self.fish_x_position += 40
+        fish = Fish([self.fish_x_position, 80], possible_values)
         self.value_collected += fish.value
         if self.value_collected > 42:
             self.sink()
